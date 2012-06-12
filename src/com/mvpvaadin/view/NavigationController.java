@@ -130,6 +130,7 @@ public class NavigationController extends UriFragmentUtility implements Fragment
 			fireEvent(new FragmentChangedEvent(this));
 		this.addListener(this);
 	}
+
 	
 	
 	private void fireNavigatedTo(NavigateableView view){
@@ -138,15 +139,25 @@ public class NavigationController extends UriFragmentUtility implements Fragment
 	}
 	
 	
+	/**
+	 * Sets the view, that should be called, if the empty Fragment (url without "#" or with hash but without continued Fragment)
+	 * @param view
+	 */
+	public void setStartView(NavigateableView view){
+		HistoryEntry entry = new HistoryEntry();
+		entry.eventsToFire = calculateEventsToFireList(view);
+		
+		historyStack.put("", entry);
+	}
+	
+	
+	
 	@Override
 	public void fragmentChanged(FragmentChangedEvent source) {
 		
 		// used by the back and forward browser button
 		
 		String uriFragment = source.getUriFragmentUtility().getFragment();
-		
-		System.out.println("Changed to "+uriFragment + " ");
-		
 		
 		HistoryEntry entry = historyStack.get(uriFragment);
 		
