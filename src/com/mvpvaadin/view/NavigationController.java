@@ -85,8 +85,8 @@ public class NavigationController extends UriFragmentUtility implements Fragment
 		{
 			events.add(0, view.getEventToShowThisView());
 			
-			if (view instanceof SubView)
-				view = ((SubView) view).getParentView();
+			if (view instanceof NavigateableSubView)
+				view = ((NavigateableSubView) view).getParentView();
 			else
 				view = null;
 		}

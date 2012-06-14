@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import com.mvpvaadin.event.EventBus;
 import com.mvpvaadin.view.NavigateableView;
 import com.mvpvaadin.view.NavigationController;
-import com.mvpvaadin.view.SubView;
+import com.mvpvaadin.view.NavigateableSubView;
 import com.mvpvaadin.view.NavigationController.NavigationControllerListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -21,7 +21,7 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 
 	private static final long serialVersionUID = -7308648462712616003L;
 
-	public static final String BREADCRUMB_ELEMENT = "breadcrumb-element";
+	public static String BREADCRUMB_ELEMENT = "breadcrumb-element";
 
 	
 	
@@ -81,6 +81,9 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 		 * and/or the description of the specified view are changed.
 		 */
 		void updateButtonTexts(Button button, NavigateableView view);
+		
+
+		public void setBreadcrumbElementStyleName(String styleName);
 	}
 
 	/**
@@ -109,6 +112,11 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 		public void updateButtonTexts(Button button, NavigateableView view) {
 			button.setCaption(view.getBreadcrumbTitle());
 		}
+
+		@Override
+		public void setBreadcrumbElementStyleName(String styleName) {
+			BREADCRUMB_ELEMENT = styleName;
+		}
 	}
 	
 
@@ -128,6 +136,13 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 		this.navigationController = controller;
 	}
 	
+	/**
+	 * The style must be set before adding the first BreadcrumbElement
+	 * @param styleName
+	 */
+	public void setBreadcrumbElementStyleName(String styleName){
+		BREADCRUMB_ELEMENT = styleName;
+	}
 	
 	/**
 	 * Set the position / alignment of the breadcrumbs-list in the whole {@link Breadcrumbs} 
@@ -226,9 +241,9 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 			
 			viewPath.add(v);
 			
-			if (v instanceof SubView)
+			if (v instanceof NavigateableSubView)
 			{
-				v = ((SubView) v).getParentView();
+				v = ((NavigateableSubView) v).getParentView();
 			}
 			else
 				break;

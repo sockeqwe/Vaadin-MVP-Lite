@@ -1,6 +1,5 @@
 package com.mvpvaadin.view;
 
-import com.mvpvaadin.event.Event;
 import com.mvpvaadin.event.EventHandler;
 
 /**
@@ -24,7 +23,7 @@ public interface NavigateableView extends View{
 	 * This method is called by the {@link NavigationController} to get the Event, that is needed to re
 	 * @return
 	 */
-	public Event<? extends EventHandler> getEventToShowThisView();
+	public com.mvpvaadin.event.Event<? extends EventHandler> getEventToShowThisView();
 	
 	
 }
