@@ -136,14 +136,14 @@ public class NavigationController extends UriFragmentUtility implements Fragment
 	 * This is a native javascript implementation, 
 	 * because {@link #setFragment(String)} seems not to work with the first call
 	 * @param fragment
-	 */
+	
 	private void setUriFragmentJSImplementation(String fragment){
 		this.removeListener(this);
 			getWindow().executeJavaScript("window.location.hash=\""+fragment+"\"");
 			fireEvent(new FragmentChangedEvent(this));
 		this.addListener(this);
 	}
-
+ */
 	
 	
 	private void fireNavigatedTo(NavigateableView view){
@@ -153,7 +153,8 @@ public class NavigationController extends UriFragmentUtility implements Fragment
 	
 	
 	/**
-	 * Sets the view, that should be called, if the empty Fragment (url without "#" or with hash but without continued Fragment)
+	 * Sets the view, that should be called, 
+	 * if the empty Fragment (url without "#" or with hash but without continued Fragment)
 	 * @param view
 	 */
 	public void setStartView(NavigateableView view){
@@ -170,6 +171,11 @@ public class NavigationController extends UriFragmentUtility implements Fragment
 		
 		// used by the back and forward browser button
 		
+		if (source == null ||  source.getUriFragmentUtility()== null 
+				|| source.getUriFragmentUtility().getFragment()==null)
+			return;
+		
+		
 		String uriFragment = source.getUriFragmentUtility().getFragment();
 		
 		HistoryEntry entry = historyStack.get(uriFragment);
@@ -177,7 +183,9 @@ public class NavigationController extends UriFragmentUtility implements Fragment
 		if (entry == null){
 			
 			if (errorMessageOnUnknownUriFragment){
-				source.getComponent().getWindow().showNotification("Unknown history state", "You try to access an unknown view via the url. Please don't change the url manualy", Notification.TYPE_ERROR_MESSAGE);
+				source.getComponent().getWindow().showNotification("Unknown history state", 
+						"You try to access an unknown view via the url. Please don't change the url manualy",
+						Notification.TYPE_ERROR_MESSAGE);
 			}
 			
 		}
