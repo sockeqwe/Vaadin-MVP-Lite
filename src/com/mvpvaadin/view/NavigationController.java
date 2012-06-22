@@ -42,9 +42,7 @@ public class NavigationController extends UriFragmentUtility implements Fragment
 	private Set<NavigationControllerListener> listeners;
 	private boolean errorMessageOnUnknownUriFragment;
 	private boolean setCurrentViewCausedByHistoryChange;
-	
-	private int fragmentId = 0;
-	
+
 	
 	public NavigationController(EventBus eventBus){
 		super();
@@ -53,7 +51,7 @@ public class NavigationController extends UriFragmentUtility implements Fragment
 		historyStack = new LinkedHashMap<String, HistoryEntry>();
 		listeners = new LinkedHashSet<NavigationController.NavigationControllerListener>();
 		setCurrentViewCausedByHistoryChange = false;
-		setShowErrorMessageOnUnknownUriFragment(true);
+		setShowErrorMessageOnUnknownUriFragment(false);
 		this.addListener(this);
 	}
 	
@@ -99,11 +97,26 @@ public class NavigationController extends UriFragmentUtility implements Fragment
 		requestRepaint();
 	}
 	
+	private String calculateUri(NavigateableView view){
+		String uri ="";
+		
+		while (view != null){
+			uri = "/"+view.getUriFragment()+uri;
+			
+			if (view instanceof NavigateableSubView)
+				view = ((NavigateableSubView) view).getParentView();
+			else
+				view = null;
+		}
+		
+		return uri;
+	}
+	
 	public void setCurrentView(NavigateableView view){
 		
 		if (!setCurrentViewCausedByHistoryChange){
 			// Add url fragmentHistory support
-			String uriFragment = view.getUriFragment()+(fragmentId++);
+			String uriFragment = calculateUri(view);
 			HistoryEntry entry = new HistoryEntry();
 			entry.eventsToFire = calculateEventsToFireList(view);
 			
