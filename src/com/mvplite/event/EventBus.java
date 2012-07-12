@@ -1,4 +1,4 @@
-package com.mvpvaadin.event;
+package com.mvplite.event;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;

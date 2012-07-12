@@ -1,4 +1,4 @@
-package com.mvpvaadin.view;
+package com.mvplite.view;
 
 /**
  * The {@link NavigateableSubView} is a sub view of a {@link NavigateableView}.

@@ -1,4 +1,4 @@
-package com.mvpvaadin.view;
+package com.mvplite.view;
 
 /**
  * This is the base interface for any view (like {@link NavigateableView})

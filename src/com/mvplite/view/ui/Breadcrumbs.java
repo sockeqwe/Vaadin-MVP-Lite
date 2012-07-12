@@ -1,12 +1,12 @@
-package com.mvpvaadin.view.ui;
+package com.mvplite.view.ui;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import com.mvpvaadin.view.LiteNavigationController.NavigationControllerListener;
-import com.mvpvaadin.view.NavigateableSubView;
-import com.mvpvaadin.view.NavigateableView;
-import com.mvpvaadin.view.NavigationController;
+import com.mvplite.view.NavigateableSubView;
+import com.mvplite.view.NavigateableView;
+import com.mvplite.view.NavigationController;
+import com.mvplite.view.LiteNavigationController.NavigationControllerListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
