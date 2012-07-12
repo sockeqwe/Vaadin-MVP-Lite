@@ -6,7 +6,7 @@ import java.util.List;
 import com.mvplite.view.NavigateableSubView;
 import com.mvplite.view.NavigateableView;
 import com.mvplite.view.NavigationController;
-import com.mvplite.view.LiteNavigationController.NavigationControllerListener;
+import com.mvplite.view.NavigationControllerListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
