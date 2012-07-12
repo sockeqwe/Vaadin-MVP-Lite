@@ -1,7 +1,6 @@
 package com.mvplite.view;
 
 import com.mvplite.event.EventBus;
-import com.mvplite.view.LiteNavigationController.NavigationControllerListener;
 
 public interface NavigationController {
 

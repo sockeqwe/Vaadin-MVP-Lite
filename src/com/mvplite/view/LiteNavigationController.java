@@ -32,11 +32,6 @@ public class LiteNavigationController extends UriFragmentUtility
 	
 	private static final long serialVersionUID = 2585755661712329836L;
 
-
-
-	public interface NavigationControllerListener{
-		public void onNavigatedTo(NavigateableView view);
-	}
 	
 	
 	private class HistoryEntry implements Serializable{
@@ -62,7 +57,7 @@ public class LiteNavigationController extends UriFragmentUtility
 		this.setImmediate(true);
 		this.eventBus = eventBus;
 		historyStack = new LinkedHashMap<String, HistoryEntry>();
-		listeners = new LinkedHashSet<LiteNavigationController.NavigationControllerListener>();
+		listeners = new LinkedHashSet<NavigationControllerListener>();
 		setCurrentViewCausedByHistoryChange = false;
 		setShowErrorMessageOnUnknownUriFragment(false);
 		this.addListener(this);
