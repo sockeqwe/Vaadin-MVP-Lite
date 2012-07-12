@@ -5,8 +5,9 @@ package com.mvplite.event;
  * @author Hannes Dorfmann
  *
  */
-public abstract class ShowViewEvent extends Event<ShowViewEventHandler>{
+public abstract class ShowViewEvent<T extends ShowViewEventHandler> extends Event<T>{
 
+	
 	private static final long serialVersionUID = 2227091598650502970L;
 
 
