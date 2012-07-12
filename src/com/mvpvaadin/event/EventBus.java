@@ -7,6 +7,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+/**
+ * {@link Event}s can be fired to the {@link EventBus} and the {@link EventBus}
+ * is the component, that deliver / dispatch the {@link Event}s to the registered {@link EventHandler}.
+ * @see #fireEvent(Event)
+ * @see #addHandler(EventType, EventHandler)
+ * @see #removeHandler(EventHandler)
+ * @author Hannes Dorfmann
+ *
+ */
 public class EventBus implements Serializable {
 	
 	private static final long serialVersionUID = 5500479291703928578L;

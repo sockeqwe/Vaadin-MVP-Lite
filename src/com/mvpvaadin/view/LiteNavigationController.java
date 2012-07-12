@@ -15,7 +15,16 @@ import com.vaadin.ui.UriFragmentUtility.FragmentChangedListener;
 import com.vaadin.ui.Window.Notification;
 
 
-
+/**
+ * The {@link LiteNavigationController} is the simplest {@link NavigationController}.
+ * The {@link LiteNavigationController} supports Browser history (back and forward) by generating 
+ * uri fragments. <br />
+ * <b> Note: </b> the uri fragments does not contain any state and therefore <b>bookmarks are 
+ * not supported</b> by the {@link LiteNavigationController}. 
+ * In the future a BookmarkableNavigationController will be implemented to support bookmarks.  
+ * @author Hannes Dorfmann
+ *
+ */
 public class LiteNavigationController extends UriFragmentUtility 
 									implements NavigationController,
 												FragmentChangedListener {

@@ -3,7 +3,6 @@ package com.mvpvaadin.view.ui;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.mvpvaadin.view.LiteNavigationController;
 import com.mvpvaadin.view.LiteNavigationController.NavigationControllerListener;
 import com.mvpvaadin.view.NavigateableSubView;
 import com.mvpvaadin.view.NavigateableView;
@@ -16,6 +15,17 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.BaseTheme;
 
+/**
+ * This is a UI Component, that displays breadcrumbs for the 
+ * {@link NavigateableView} / {@link NavigateableSubView}, which is currently
+ * displayed on screen.
+ * To customize the look of this component, you should write your own 
+ * {@link SeparatorFactory} and {@link BreadcrumbElementFactory} and set it with
+ * {@link #setBreadcrumbElementFactory(BreadcrumbElementFactory)}
+ * {@link #setSeparatorFactory(SeparatorFactory)}
+ * 
+ * @author Hannes Dorfmann
+ */
 public class Breadcrumbs extends HorizontalLayout implements NavigationControllerListener{
 	
 
