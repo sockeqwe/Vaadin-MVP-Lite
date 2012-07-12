@@ -1,4 +1,4 @@
-package com.mvpvaadin.view;
+package com.mvplite.view;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -7,10 +7,10 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
-import com.mvpvaadin.bookmarkable.Bookmarkable;
-import com.mvpvaadin.event.EventBus;
-import com.mvpvaadin.event.ShowViewEvent;
-import com.mvpvaadin.view.LiteNavigationController.NavigationControllerListener;
+import com.mvplite.bookmarkable.Bookmarkable;
+import com.mvplite.event.EventBus;
+import com.mvplite.event.ShowViewEvent;
+import com.mvplite.view.LiteNavigationController.NavigationControllerListener;
 import com.vaadin.ui.UriFragmentUtility;
 import com.vaadin.ui.UriFragmentUtility.FragmentChangedListener;
 

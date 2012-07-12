@@ -1,6 +1,6 @@
-package com.mvpvaadin.bookmarkable;
+package com.mvplite.bookmarkable;
 
-import com.mvpvaadin.event.ShowViewEvent;
+import com.mvplite.event.ShowViewEvent;
 
 public @interface Bookmarkable {
 	Class<? extends ShowViewEvent> eventClass();
