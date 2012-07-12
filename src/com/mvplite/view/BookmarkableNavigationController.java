@@ -10,7 +10,6 @@ import org.reflections.Reflections;
 import com.mvplite.bookmarkable.Bookmarkable;
 import com.mvplite.event.EventBus;
 import com.mvplite.event.ShowViewEvent;
-import com.mvplite.view.LiteNavigationController.NavigationControllerListener;
 import com.vaadin.ui.UriFragmentUtility;
 import com.vaadin.ui.UriFragmentUtility.FragmentChangedListener;
 
@@ -43,7 +42,7 @@ public class BookmarkableNavigationController extends 	UriFragmentUtility
 		this.eventBus = eventBus;
 		this.setImmediate(true);
 		scanAnotations(packageToScan);
-		listeners = new LinkedHashSet<LiteNavigationController.NavigationControllerListener>();
+		listeners = new LinkedHashSet<NavigationControllerListener>();
 	}
 	
 
