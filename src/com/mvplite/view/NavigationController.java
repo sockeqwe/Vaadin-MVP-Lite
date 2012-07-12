@@ -1,7 +1,7 @@
-package com.mvpvaadin.view;
+package com.mvplite.view;
 
-import com.mvpvaadin.event.EventBus;
-import com.mvpvaadin.view.LiteNavigationController.NavigationControllerListener;
+import com.mvplite.event.EventBus;
+import com.mvplite.view.LiteNavigationController.NavigationControllerListener;
 
 public interface NavigationController {
 

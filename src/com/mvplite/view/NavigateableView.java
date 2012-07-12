@@ -1,6 +1,6 @@
-package com.mvpvaadin.view;
+package com.mvplite.view;
 
-import com.mvpvaadin.event.ShowViewEvent;
+import com.mvplite.event.ShowViewEvent;
 
 /**
  * A {@link NavigateableView} is a {@link View} that is used in combination with an {@link NavigationController}.

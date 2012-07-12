@@ -1,4 +1,4 @@
-package com.mvpvaadin.event;
+package com.mvplite.event;
 
 /**
  * This is the base event class for events that should show a View

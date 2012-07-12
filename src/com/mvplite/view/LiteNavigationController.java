@@ -1,4 +1,4 @@
-package com.mvpvaadin.view;
+package com.mvplite.view;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mvpvaadin.event.EventBus;
-import com.mvpvaadin.event.EventHandler;
+import com.mvplite.event.EventBus;
+import com.mvplite.event.EventHandler;
 import com.vaadin.ui.UriFragmentUtility;
 import com.vaadin.ui.UriFragmentUtility.FragmentChangedListener;
 import com.vaadin.ui.Window.Notification;
@@ -43,10 +43,10 @@ public class LiteNavigationController extends UriFragmentUtility
 		
 		private static final long serialVersionUID = 6852274305903891448L;
 		
-		public List<com.mvpvaadin.event.Event<? extends EventHandler>> eventsToFire;
+		public List<com.mvplite.event.Event<? extends EventHandler>> eventsToFire;
 		
 		public HistoryEntry(){
-			eventsToFire = new LinkedList<com.mvpvaadin.event.Event<? extends EventHandler>>();
+			eventsToFire = new LinkedList<com.mvplite.event.Event<? extends EventHandler>>();
 		}
 	}
 
@@ -74,7 +74,7 @@ public class LiteNavigationController extends UriFragmentUtility
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.mvpvaadin.view.NavigationController#setShowErrorMessageOnUnknownUriFragment(boolean)
+	 * @see com.mvplite.view.NavigationController#setShowErrorMessageOnUnknownUriFragment(boolean)
 	 */
 	@Override
 	public void setShowErrorMessageOnUnknownUriFragment(boolean showErrorMessage){
@@ -84,7 +84,7 @@ public class LiteNavigationController extends UriFragmentUtility
 
 	
 	/* (non-Javadoc)
-	 * @see com.mvpvaadin.view.NavigationController#addListener(com.mvpvaadin.view.LiteNavigationController.NavigationControllerListener)
+	 * @see com.mvplite.view.NavigationController#addListener(com.mvplite.view.LiteNavigationController.NavigationControllerListener)
 	 */
 	@Override
 	public void addListener(NavigationControllerListener l){
@@ -93,7 +93,7 @@ public class LiteNavigationController extends UriFragmentUtility
 	
 	
 	/* (non-Javadoc)
-	 * @see com.mvpvaadin.view.NavigationController#removeListener(com.mvpvaadin.view.LiteNavigationController.NavigationControllerListener)
+	 * @see com.mvplite.view.NavigationController#removeListener(com.mvplite.view.LiteNavigationController.NavigationControllerListener)
 	 */
 	@Override
 	public void removeListener(NavigationControllerListener l){
@@ -101,9 +101,9 @@ public class LiteNavigationController extends UriFragmentUtility
 	}
 	
 	
-	private List<com.mvpvaadin.event.Event<? extends EventHandler>> calculateEventsToFireList(NavigateableView view){
-		List<com.mvpvaadin.event.Event<? extends EventHandler>> events = 
-				new LinkedList<com.mvpvaadin.event.Event<? extends EventHandler>>();
+	private List<com.mvplite.event.Event<? extends EventHandler>> calculateEventsToFireList(NavigateableView view){
+		List<com.mvplite.event.Event<? extends EventHandler>> events = 
+				new LinkedList<com.mvplite.event.Event<? extends EventHandler>>();
 		
 		while (view != null)
 		{
@@ -139,7 +139,7 @@ public class LiteNavigationController extends UriFragmentUtility
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.mvpvaadin.view.NavigationController#setCurrentView(com.mvpvaadin.view.NavigateableView)
+	 * @see com.mvplite.view.NavigationController#setCurrentView(com.mvplite.view.NavigateableView)
 	 */
 	@Override
 	public void setCurrentView(NavigateableView view){
@@ -183,7 +183,7 @@ public class LiteNavigationController extends UriFragmentUtility
 	
 	
 	/* (non-Javadoc)
-	 * @see com.mvpvaadin.view.NavigationController#setStartView(com.mvpvaadin.view.NavigateableView)
+	 * @see com.mvplite.view.NavigationController#setStartView(com.mvplite.view.NavigateableView)
 	 */
 	@Override
 	public void setStartView(NavigateableView view){
@@ -223,7 +223,7 @@ public class LiteNavigationController extends UriFragmentUtility
 			setCurrentViewCausedByHistoryChange = true;
 			
 			// fire the events that are needed to get to the state of uri fragment
-			for (com.mvpvaadin.event.Event<? extends EventHandler> e : entry.eventsToFire){
+			for (com.mvplite.event.Event<? extends EventHandler> e : entry.eventsToFire){
 				eventBus.fireEvent(e);
 			}
 			

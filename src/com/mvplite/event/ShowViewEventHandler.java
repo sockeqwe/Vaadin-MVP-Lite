@@ -1,4 +1,4 @@
-package com.mvpvaadin.event;
+package com.mvplite.event;
 
 /**
  * The basic Handler for {@link ShowViewEvent}s.

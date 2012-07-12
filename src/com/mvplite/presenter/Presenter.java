@@ -1,10 +1,10 @@
-package com.mvpvaadin.presenter;
+package com.mvplite.presenter;
 
 import java.io.Serializable;
 
-import com.mvpvaadin.event.Event;
-import com.mvpvaadin.event.EventBus;
-import com.mvpvaadin.view.View;
+import com.mvplite.event.Event;
+import com.mvplite.event.EventBus;
+import com.mvplite.view.View;
 
 /**
  * This is the base class for every {@link Presenter} and it provides the basic 
