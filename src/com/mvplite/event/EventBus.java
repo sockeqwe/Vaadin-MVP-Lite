@@ -1,6 +1,7 @@
 package com.mvplite.event;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -21,9 +22,12 @@ public class EventBus implements Serializable {
 	private static final long serialVersionUID = 5500479291703928578L;
 	
 	private Map<EventType<? extends EventHandler>, Set<EventHandler>> handlerMap;
-	
+//	private Map<Integer, Set<EventHandler>> handlerMap;
+
 	public EventBus(){
-		handlerMap = new LinkedHashMap<EventType<? extends EventHandler>, Set<EventHandler>>();
+		 handlerMap = new HashMap<EventType<? extends EventHandler>, Set<EventHandler>>();
+//		handlerMap = new HashMap<Integer, Set<EventHandler>>();
+		
 	}
 	
 	
@@ -35,6 +39,8 @@ public class EventBus implements Serializable {
 	 * @param handler
 	 */
 	public <H extends EventHandler> void addHandler(EventType<H> type, H handler){
+		
+		System.out.println("Added "+type+" "+handler);
 		Set<EventHandler> handlersForType = handlerMap.get(type);
 		
 		if (handlersForType!=null)
@@ -69,6 +75,7 @@ public class EventBus implements Serializable {
 	public void removeHandler(EventHandler handler){
 		
 		for (Entry<EventType<? extends EventHandler>, Set<EventHandler>> e : handlerMap.entrySet()){
+//		for (Entry<Integer, Set<EventHandler>> e : handlerMap.entrySet()){
 			e.getValue().remove(handler);
 		}
 		
@@ -82,6 +89,7 @@ public class EventBus implements Serializable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void fireEvent(Event event){
 		
+		System.out.println("FireEvent "+event.getType());
 		Set<EventHandler> handlers = handlerMap.get(event.getType());
 		
 		if (handlers != null)

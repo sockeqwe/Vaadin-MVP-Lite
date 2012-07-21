@@ -15,5 +15,25 @@ public class EventType <T extends EventHandler> implements Serializable{
 
 	private static final long serialVersionUID = -8411159259067122385L;
 	
+	private static int nextHashCode;
+    private final int index;
+
+    /**
+     * Constructor.
+     */
+    public EventType() {
+      index = ++nextHashCode;
+    }
+
+    @Override
+    public final int hashCode() {
+      return index;
+    }
+
+    @Override
+    public String toString() {
+      return "Event type " + index;
+    }
+	
 
 }

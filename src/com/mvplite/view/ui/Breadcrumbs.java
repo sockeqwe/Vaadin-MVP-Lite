@@ -7,11 +7,10 @@ import com.mvplite.view.NavigateableSubView;
 import com.mvplite.view.NavigateableView;
 import com.mvplite.view.NavigationController;
 import com.mvplite.view.NavigationControllerListener;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.BaseTheme;
 
@@ -26,13 +25,14 @@ import com.vaadin.ui.themes.BaseTheme;
  * 
  * @author Hannes Dorfmann
  */
-public class Breadcrumbs extends HorizontalLayout implements NavigationControllerListener{
+public class Breadcrumbs extends CssLayout implements NavigationControllerListener{
 	
 
 	private static final long serialVersionUID = -7308648462712616003L;
 
 	public static String BREADCRUMB_ELEMENT = "breadcrumb-element";
-
+	
+	public static String BREADCRUMB_BAR = "breadcrumb-bar";
 	
 	
 	/**
@@ -42,7 +42,7 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 	 * @author Petter Holmström
 	 * @since 1.0
 	 */
-	public static interface SeparatorFactory extends java.io.Serializable {
+	public interface SeparatorFactory extends java.io.Serializable {
 		/**
 		 * Creates and returns a component to be used as a separator between
 		 * breadcrumbs.
@@ -58,7 +58,7 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 	 * @author Petter Holmström
 	 * @since 1.0
 	 */
-	public static class DefaultSeparatorFactory implements SeparatorFactory {
+	public  class DefaultSeparatorFactory implements SeparatorFactory {
 
 		private static final long serialVersionUID = 7957216244739746986L;
 
@@ -78,13 +78,17 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 	 * @author Petter Holmström
 	 * @since 1.0
 	 */
-	public static interface BreadcrumbElementFactory extends java.io.Serializable {
+	public interface BreadcrumbElementFactory extends java.io.Serializable {
 
 		/**
 		 * Creates and returns a button for the specified view. The click
 		 * listener will be registered by the breadcrumbs component.
+		 * @param controller
+		 * @param view
+		 * @param currentIndex the index beginning by zero to totalcount-1
+		 * @param totalCount
 		 */
-		Button createButton(NavigateableView view);
+		Component createElement(NavigationController controller, NavigateableView view, int currentIndex, int totalCount);
 
 		/**
 		 * Updates the button texts. This method is called when the display name
@@ -95,6 +99,8 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 
 		public void setBreadcrumbElementStyleName(String styleName);
 	}
+	
+	
 
 	/**
 	 * Default implementation of {@link BreadcrumbElementFactory}. The created buttons have
@@ -104,17 +110,28 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 	 * @author Petter Holmström
 	 * @since 1.0
 	 */
-	public static class DefaultBreadcrumbElementFactory implements BreadcrumbElementFactory {
+	public class DefaultBreadcrumbElementFactory implements BreadcrumbElementFactory {
 
 		private static final long serialVersionUID = 8031407455065485896L;
 		
 		@Override
-		public Button createButton(NavigateableView view) {
+		public Component createElement(final NavigationController controller, final NavigateableView view, int currentIndex, int totalCount) {
 			final Button btn = new Button();
 			btn.setStyleName(BaseTheme.BUTTON_LINK);
 			btn.setSizeUndefined();
 			btn.addStyleName(BREADCRUMB_ELEMENT);
 			updateButtonTexts(btn, view);
+			
+			btn.addListener(new Button.ClickListener() {
+
+				private static final long serialVersionUID = -9116612359809246223L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					controller.getEventBus().fireEvent(view.getEventToShowThisView());
+				}
+			});
+
 			return btn;
 		}
 
@@ -131,36 +148,28 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 	
 
 	private SeparatorFactory separatorFactory;
-	private BreadcrumbElementFactory buttonFactory;
-	private HorizontalLayout breadcrumbElementContainer;
+	private BreadcrumbElementFactory elementFactory;
 	private NavigationController navigationController;
 	
 	public Breadcrumbs(NavigationController controller){
-		buttonFactory = new DefaultBreadcrumbElementFactory();
+		elementFactory = new DefaultBreadcrumbElementFactory();
 		separatorFactory = new DefaultSeparatorFactory();
-		breadcrumbElementContainer = new HorizontalLayout();
-		breadcrumbElementContainer.setSizeUndefined();
-		this.addComponent(breadcrumbElementContainer);
-		this.setBreadcrumListAlignment(Alignment.MIDDLE_LEFT);
+		this.setSizeUndefined();
 		controller.addListener(this);
 		this.navigationController = controller;
+		this.setStyleName(BREADCRUMB_BAR);
 	}
 	
-	/**
-	 * The style must be set before adding the first BreadcrumbElement
-	 * @param styleName
-	 */
-	public void setBreadcrumbElementStyleName(String styleName){
-		BREADCRUMB_ELEMENT = styleName;
-	}
+
 	
 	/**
 	 * Set the position / alignment of the breadcrumbs-list in the whole {@link Breadcrumbs} 
 	 * @param alignment {@link Alignment}
-	 */
+	 
 	public void setBreadcrumListAlignment(Alignment alignment){
 		this.setComponentAlignment(breadcrumbElementContainer, alignment);
 	}
+	*/
 
 	/**
 	 * Returns the separator factory to use for creating separators between
@@ -186,7 +195,7 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 	 * Returns the button factory to use for creating breadcrumb buttons.
 	 */
 	public BreadcrumbElementFactory getBreadcrumbElementFactory() {
-		return buttonFactory;
+		return elementFactory;
 	}
 
 	/**
@@ -197,26 +206,15 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 		if (buttonFactory == null) {
 			buttonFactory = new DefaultBreadcrumbElementFactory();
 		}
-		this.buttonFactory = buttonFactory;
+		this.elementFactory = buttonFactory;
 	}
 
 	
-	protected void addBreadcrumbForView(final NavigateableView view) {
+	protected void addBreadcrumbForView(final NavigateableView view, int index, int totalCount) {
 		
-		final Button btn = getBreadcrumbElementFactory().createButton(view);
-		
-		btn.addListener(new Button.ClickListener() {
-
-			private static final long serialVersionUID = -9116612359809246223L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigationController.getEventBus().fireEvent(view.getEventToShowThisView());
-			}
-		});
-		
-		breadcrumbElementContainer.addComponent(btn);
-		breadcrumbElementContainer.setComponentAlignment(btn, Alignment.MIDDLE_LEFT);
+		final Component btn = getBreadcrumbElementFactory().createElement(navigationController, view, index, totalCount);
+		this.addComponent(btn);
+//		breadcrumbElementContainer.setComponentAlignment(btn, Alignment.MIDDLE_LEFT);
 	}
 	
 
@@ -225,12 +223,14 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 	
 	protected void addSeparatorForView() {
 		Component separator = getSeparatorFactory().createSeparator();
-		breadcrumbElementContainer.addComponent(separator);
-		breadcrumbElementContainer.setComponentAlignment(separator, Alignment.MIDDLE_LEFT);
+		if (separator != null){
+			this.addComponent(separator);
+//			breadcrumbElementContainer.setComponentAlignment(separator, Alignment.MIDDLE_LEFT);
+		}
 	}
 
 	protected void removeBreadcrumbs() {
-		breadcrumbElementContainer.removeAllComponents();
+		this.removeAllComponents();
 		
 	}
 
@@ -241,12 +241,12 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 		
 	}
 	
-	
 	private void generateBreadcrumb(NavigateableView view){
 		
 		NavigateableView v = view;
 		List<NavigateableView> viewPath = new LinkedList<NavigateableView>();
 		
+		// TODO optimization: do everything in one loop
 		while (true){
 			
 			viewPath.add(v);
@@ -259,13 +259,15 @@ public class Breadcrumbs extends HorizontalLayout implements NavigationControlle
 				break;
 		}
 		
-		
+		int totalCount = viewPath.size();
+		int index = 0;
 		for (int i = viewPath.size()-1; i>=0; i--)
 		{
 			if (i!=viewPath.size()-1)
 				addSeparatorForView();
 			
-			addBreadcrumbForView(viewPath.get(i));
+			addBreadcrumbForView(viewPath.get(i), index, totalCount);
+			index++;
 		}
 		
 		
