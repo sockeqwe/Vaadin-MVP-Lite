@@ -22,7 +22,16 @@ public class Presenter <T extends View> implements Serializable {
 	
 	private T view;
 	private EventBus eventBus;
+
+	public Presenter(){
+		
+	}
 	
+	public Presenter (T view)
+	{
+		setView(view);
+	}
+
 	public Presenter(T view, EventBus eventBus)
 	{
 		setView(view);

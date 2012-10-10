@@ -2,7 +2,6 @@ package com.mvplite.event;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,12 +21,9 @@ public class EventBus implements Serializable {
 	private static final long serialVersionUID = 5500479291703928578L;
 	
 	private Map<EventType<? extends EventHandler>, Set<EventHandler>> handlerMap;
-//	private Map<Integer, Set<EventHandler>> handlerMap;
 
 	public EventBus(){
 		 handlerMap = new HashMap<EventType<? extends EventHandler>, Set<EventHandler>>();
-//		handlerMap = new HashMap<Integer, Set<EventHandler>>();
-		
 	}
 	
 	
