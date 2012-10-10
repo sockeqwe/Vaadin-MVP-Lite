@@ -17,14 +17,17 @@ public final class GlobalEventBus {
 	 */
 	public final static class Client implements Comparable<Client> {
 		public String sessionID;
-		public Date lastAccess;
+		public long lastAccess;
+		public List<String> groupMemberships;
 		public List<Event<? extends EventHandler>> queuedEvents;
 		
-		public Client(String sessionID){
+		public Client(String sessionID, List<String> groupMemberships){
 			this.sessionID = sessionID;
-			this.lastAccess = new Date();
+			this.groupMemberships = groupMemberships;
+			this.lastAccess = new Date().getTime();
 			this.queuedEvents = new ArrayList<Event<? extends EventHandler>>();
 		}
+		
 
 		@Override
 		public int compareTo(Client o) {
@@ -39,6 +42,11 @@ public final class GlobalEventBus {
 	}
 	
 	
+	private static long MEMORY_CLEAN_TIMEOUT = 5 * 60 * 1000;
+	private static long CLIENT_TIMEOUT = 1 * 60 * 1000;
+	private static long lastCleanUp = new Date().getTime();
+	
+	
 	private static HashMap<String, TreeSet<Client> > userClientMap = 
 			new HashMap<String, TreeSet<Client>>();
 	
@@ -48,7 +56,7 @@ public final class GlobalEventBus {
 	public static void addClient(String username, String sessionID, 
 			List<String> groupMemberships){
 	
-		Client c = new Client(sessionID);
+		Client c = new Client(sessionID, groupMemberships);
 		
 		TreeSet<Client> clientsOfUser = userClientMap.get(username);
 		
@@ -98,8 +106,11 @@ public final class GlobalEventBus {
 		
 		// remove group membershipments
 		if (toRemove != null)
-			for (List<Client> groups : groupClientMap.values())
+			for (String groupName : toRemove.groupMemberships)
 			{
+				List<Client> groups = groupClientMap.get(groupName);
+				
+				if (groups!=null)
 				for (Client client : groups)
 					if (client.sessionID.equals(sessionID))
 					{
@@ -121,6 +132,8 @@ public final class GlobalEventBus {
 	 */
 	public static void fireEvent(String username, Event<? extends EventHandler> event){
 		
+		memoryCleanUp();
+		
 		TreeSet<Client> clients = userClientMap.get(username);
 		
 		if (clients != null) // If there is at least one client
@@ -140,6 +153,8 @@ public final class GlobalEventBus {
 	public static void fireBroadcastEvent(Event<? extends EventHandler> event,
 			String sessionIdOfSender){
 		
+		memoryCleanUp();
+		
 		for (TreeSet<Client> e : userClientMap.values())
 		{
 			for (Client c: e)
@@ -158,6 +173,8 @@ public final class GlobalEventBus {
 	 */
 	public static void fireBroadcastEvent(Event<? extends EventHandler> event){
 		
+		memoryCleanUp();
+		
 		for (TreeSet<Client> e : userClientMap.values())
 		{
 			for (Client c: e)
@@ -171,10 +188,12 @@ public final class GlobalEventBus {
 	 * @param e
 	 * @param sessionIdOfSender
 	 */
-	public static void fireAdminBroadcastEvent(Event<? extends EventHandler> e,
+	public static void fireGroupBroadcastEvent(Event<? extends EventHandler> e,
 			String groupName, String sessionIdOfSender){
 		
-		List<Client> clients = groupClientMap.get(sessionIdOfSender);
+		memoryCleanUp();
+		
+		List<Client> clients = groupClientMap.get(groupName);
 		
 		if (clients!=null)
 			for (Client c: clients)
@@ -192,6 +211,8 @@ public final class GlobalEventBus {
 	 */
 	public static void fireGroupBroadcastEvent(Event<? extends EventHandler> e, 
 			String groupName){
+		
+		memoryCleanUp();
 		
 		List<Client> clients = groupClientMap.get(groupName);
 		if (clients!=null)
@@ -218,6 +239,7 @@ public final class GlobalEventBus {
 							new ArrayList<Event<? extends EventHandler>>(c.queuedEvents);
 					
 					c.queuedEvents.clear();
+					c.lastAccess = new Date().getTime();
 					return ret;
 				}
 					
@@ -225,6 +247,41 @@ public final class GlobalEventBus {
 		
 		
 		return null;
+	}
+	
+	
+	private static void memoryCleanUp(){
+		
+		long timeStamp = new Date().getTime();
+		
+		if (lastCleanUp + MEMORY_CLEAN_TIMEOUT < timeStamp){
+			
+			for (TreeSet<Client> clients : userClientMap.values()){
+				
+				List<Client> toRemove = new ArrayList<GlobalEventBus.Client>();
+				
+				for (Client c: clients)
+				if (c.lastAccess + CLIENT_TIMEOUT < timeStamp){
+					toRemove.add(c);
+					c.queuedEvents.clear();
+					
+					// Remove memberships
+					for (String groupName : c.groupMemberships)
+					{
+						List<Client> s = groupClientMap.get(groupName);
+						s.remove(c);
+					}
+				}
+				
+				if (!toRemove.isEmpty())
+				{
+					clients.removeAll(toRemove);
+				}
+			}
+			
+			lastCleanUp = new Date().getTime();
+		}
+		
 	}
 
 }
