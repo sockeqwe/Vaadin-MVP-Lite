@@ -35,8 +35,6 @@ public class EventBus implements Serializable {
 	 * @param handler
 	 */
 	public <H extends EventHandler> void addHandler(EventType<H> type, H handler){
-		
-		System.out.println("Added "+type+" "+handler);
 		Set<EventHandler> handlersForType = handlerMap.get(type);
 		
 		if (handlersForType!=null)
@@ -85,7 +83,6 @@ public class EventBus implements Serializable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void fireEvent(Event event){
 		
-		System.out.println("FireEvent "+event.getType());
 		Set<EventHandler> handlers = handlerMap.get(event.getType());
 		
 		if (handlers != null)

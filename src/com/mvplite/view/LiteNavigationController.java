@@ -52,10 +52,9 @@ public class LiteNavigationController extends UriFragmentUtility
 	private boolean setCurrentViewCausedByHistoryChange;
 
 	
-	public LiteNavigationController(EventBus eventBus){
+	public LiteNavigationController(){
 		super();
 		this.setImmediate(true);
-		this.eventBus = eventBus;
 		historyStack = new LinkedHashMap<String, HistoryEntry>();
 		listeners = new LinkedHashSet<NavigationControllerListener>();
 		setCurrentViewCausedByHistoryChange = false;
@@ -63,9 +62,19 @@ public class LiteNavigationController extends UriFragmentUtility
 		this.addListener(this);
 	}
 	
+	public LiteNavigationController(EventBus eventBus){
+		this();
+		this.eventBus = eventBus;
+	}
+	
+	
 	
 	public EventBus getEventBus(){
 		return eventBus;
+	}
+	
+	public void setEventBus(EventBus eb){
+		this.eventBus = eb;
 	}
 	
 	/* (non-Javadoc)
