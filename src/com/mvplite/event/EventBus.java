@@ -193,7 +193,6 @@ public class EventBus implements Serializable {
 		boolean added = false;
 		for (Method m : handler.getClass().getMethods())
 		{
-			System.out.println(m.getName()); // TODO remove
 			if (!m.isAnnotationPresent(EventHandler.class))
 				continue;
 			
