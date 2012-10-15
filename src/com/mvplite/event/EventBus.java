@@ -84,7 +84,7 @@ class EventDispatcher{
 		return target;
 	}
 	
-	public void dispatchEvent(Object event) throws InvocationTargetException {
+	public void dispatchEvent(Object event){
 	    
 		try {
 	      method.invoke(target, new Object[] { event });
@@ -96,7 +96,8 @@ class EventDispatcher{
 	      if (e.getCause() instanceof Error) {
 	        throw (Error) e.getCause();
 	      }
-	      throw e;
+	      else
+	    	  throw new Error (e);
 	    }
 	}
 	
@@ -166,42 +167,67 @@ public class EventBus implements Serializable {
 	
 	/**
 	 * Registers an  {@link EventHandler}  for the specified {@link EventType}
-	 * @param type
 	 * @param handler
 	 */
 	public void addHandler(Object handler){
 		
-		Class<?> clazz = handler.getClass();
+		boolean added = false;
 		
 		if (caching){
-			if (!eventMethodChache.isClassCached(clazz)) 
-				scanHandlerAndCreateEventDispatcher(clazz); // This class is not cached, so scan the class
+			if (!eventMethodChache.isClassCached(handler.getClass())) 
+				added = scanHandlerAndCreateEventDispatcher(handler); // This class is not cached, so scan the class
 			else
 				// This class has been cached (has been already scanned), so build the EventDispatcher from Cache
-				createEventDispatchersFromCache(handler);
+				added = createEventDispatchersFromCache(handler);
 		}
 		else
-			scanHandlerAndCreateEventDispatcher(clazz);
+			added = scanHandlerAndCreateEventDispatcher(handler);
+		
+		if (!added)
+			throw new Error("No @EventHandler annotated Method found in "+handler.getClass().getName());
+	
 	}
 	
 	
-	private void scanHandlerAndCreateEventDispatcher(Object handler){
-		Event prototype = new Event();
+	private boolean scanHandlerAndCreateEventDispatcher(Object handler){
+		boolean added = false;
 		for (Method m : handler.getClass().getMethods())
 		{
+			System.out.println(m.getName()); // TODO remove
 			if (!m.isAnnotationPresent(EventHandler.class))
 				continue;
 			
 			Class<?> params [] = m.getParameterTypes();
-			if (params.length == 1 && params[0].isInstance(prototype)){
+			if (params.length == 1 && isEventClass(params[0])){
 				// This Method is a Valid EventHandler
 				EventDispatcher disp = new EventDispatcher(handler, m);
 				addEventDispatcher(getEventClass(m), disp);
+				added = true;
 				
 				if (caching)
 					eventMethodChache.addMethodToCache(handler.getClass(), m);
 			}
+			else
+				throw new Error("You have annotated the Method "+m.getName()+" with @EventHandler, " +
+						"but this method did not match the required one Parameter (exactly one) of the type Event");
 		}
+		
+		return added;
+	}
+	
+	
+	private boolean isEventClass(Class<?> clazz){
+		
+		Class<?> c = clazz;
+		while (c!=null){
+			if (c.equals(Event.class))
+				return true;
+			
+			c = c.getSuperclass();
+		}
+		
+		return false;
+		
 	}
 	
 	/**
@@ -211,7 +237,7 @@ public class EventBus implements Serializable {
 	 * {@link EventDispatcher}s are present in the {@link EventMethodCache}.
 	 * @param handler
 	 */
-	private void createEventDispatchersFromCache(Object handler){
+	private boolean createEventDispatchersFromCache(Object handler){
 	
 		Set<Method> methods = eventMethodChache.getMethods(handler.getClass());
 		
@@ -222,6 +248,8 @@ public class EventBus implements Serializable {
 			EventDispatcher disp = new EventDispatcher(handler, m);
 			addEventDispatcher(getEventClass(m), disp);
 		}
+		
+		return !methods.isEmpty();
 	}
 	
 	/**
@@ -267,10 +295,19 @@ public class EventBus implements Serializable {
 	/**
 	 * Fires a Event to the EventBus to inform all registered EventHandlers about this Event
 	 * @param event
+	 * @return true if at least one {@link EventHandler} is registered and has received the passed event,
+	 * otherwise false
 	 */
-	public void fireEvent(Event event){
-		System.out.println(event.getClass().getName());
+	public boolean fireEvent(Event event){
 		
+		Set<EventDispatcher> dispatchers = handlerMap.get(event.getClass());
+		if (dispatchers == null || dispatchers.isEmpty())
+			return false;
+		
+		for (EventDispatcher disp : dispatchers)
+			disp.dispatchEvent(event);
+		
+		return true;
 	}
 	
 	

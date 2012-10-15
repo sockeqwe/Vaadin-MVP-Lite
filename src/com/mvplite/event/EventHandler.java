@@ -1,5 +1,8 @@
 package com.mvplite.event;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 
 /**
  * This is the base type for every {@link EventHandler} that handles {@link Event}s.
@@ -8,6 +11,7 @@ package com.mvplite.event;
  * @author Hannes Dorfmann
  *
  */
+@Retention(value=RetentionPolicy.RUNTIME)
 public @interface EventHandler {
 
 }
