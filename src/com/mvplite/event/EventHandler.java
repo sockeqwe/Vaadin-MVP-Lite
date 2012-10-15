@@ -8,6 +8,6 @@ package com.mvplite.event;
  * @author Hannes Dorfmann
  *
  */
-public interface EventHandler {
+public @interface EventHandler {
 
 }

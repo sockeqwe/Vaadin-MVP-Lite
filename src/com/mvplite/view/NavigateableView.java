@@ -1,7 +1,6 @@
 package com.mvplite.view;
 
 import com.mvplite.event.ShowViewEvent;
-import com.mvplite.event.ShowViewEventHandler;
 
 /**
  * A {@link NavigateableView} is a {@link View} that is used in combination with an {@link NavigationController}.
@@ -24,7 +23,7 @@ public interface NavigateableView extends View{
 	 * This method is called by the {@link LiteNavigationController} to get the Event, that is needed to re
 	 * @return
 	 */
-	public ShowViewEvent<? extends ShowViewEventHandler> getEventToShowThisView();
+	public ShowViewEvent getEventToShowThisView();
 	
 	
 }

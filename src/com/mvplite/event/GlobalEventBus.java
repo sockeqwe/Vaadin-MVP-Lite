@@ -19,13 +19,13 @@ public final class GlobalEventBus {
 		public String sessionID;
 		public long lastAccess;
 		public List<String> groupMemberships;
-		public List<Event<? extends EventHandler>> queuedEvents;
+		public List<Event> queuedEvents;
 		
 		public Client(String sessionID, List<String> groupMemberships){
 			this.sessionID = sessionID;
 			this.groupMemberships = groupMemberships;
 			this.lastAccess = new Date().getTime();
-			this.queuedEvents = new ArrayList<Event<? extends EventHandler>>();
+			this.queuedEvents = new ArrayList<Event>();
 		}
 		
 
@@ -130,7 +130,7 @@ public final class GlobalEventBus {
 	 * @param username
 	 * @param event
 	 */
-	public static void fireEvent(String username, Event<? extends EventHandler> event){
+	public static void fireEvent(String username, Event event){
 		
 		memoryCleanUp();
 		
@@ -150,7 +150,7 @@ public final class GlobalEventBus {
 	 * @param event
 	 * @param sessionIdOfSender
 	 */
-	public static void fireBroadcastEvent(Event<? extends EventHandler> event,
+	public static void fireBroadcastEvent(Event event,
 			String sessionIdOfSender){
 		
 		memoryCleanUp();
@@ -171,7 +171,7 @@ public final class GlobalEventBus {
 	 * The {@link Event} is also delivered to the sender.
 	 * @param event
 	 */
-	public static void fireBroadcastEvent(Event<? extends EventHandler> event){
+	public static void fireBroadcastEvent(Event event){
 		
 		memoryCleanUp();
 		
@@ -188,7 +188,7 @@ public final class GlobalEventBus {
 	 * @param e
 	 * @param sessionIdOfSender
 	 */
-	public static void fireGroupBroadcastEvent(Event<? extends EventHandler> e,
+	public static void fireGroupBroadcastEvent(Event e,
 			String groupName, String sessionIdOfSender){
 		
 		memoryCleanUp();
@@ -209,7 +209,7 @@ public final class GlobalEventBus {
 	 * that is member of a group (identified by the passed groupName)
 	 * @param e
 	 */
-	public static void fireGroupBroadcastEvent(Event<? extends EventHandler> e, 
+	public static void fireGroupBroadcastEvent(Event e, 
 			String groupName){
 		
 		memoryCleanUp();
@@ -227,7 +227,7 @@ public final class GlobalEventBus {
 	 * @param sessionID the session id of the client
 	 * @return {@link List} of {@link Event}s or null
 	 */
-	public static List<Event<? extends EventHandler>> getEventsFor(String username, String sessionID){
+	public static List<Event> getEventsFor(String username, String sessionID){
 		
 		TreeSet<Client> clients = userClientMap.get(username);
 		
@@ -235,8 +235,8 @@ public final class GlobalEventBus {
 		{
 			for (Client c: clients)
 				if (c.sessionID.equals(sessionID)){
-					List<Event<? extends EventHandler>> ret = 
-							new ArrayList<Event<? extends EventHandler>>(c.queuedEvents);
+					List<Event> ret = 
+							new ArrayList<Event>(c.queuedEvents);
 					
 					c.queuedEvents.clear();
 					c.lastAccess = new Date().getTime();

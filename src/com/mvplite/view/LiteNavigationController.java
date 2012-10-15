@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.mvplite.event.EventBus;
-import com.mvplite.event.EventHandler;
 import com.vaadin.ui.UriFragmentUtility;
 import com.vaadin.ui.UriFragmentUtility.FragmentChangedListener;
 import com.vaadin.ui.Window.Notification;
@@ -38,10 +37,10 @@ public class LiteNavigationController extends UriFragmentUtility
 		
 		private static final long serialVersionUID = 6852274305903891448L;
 		
-		public List<com.mvplite.event.Event<? extends EventHandler>> eventsToFire;
+		public List<com.mvplite.event.Event> eventsToFire;
 		
 		public HistoryEntry(){
-			eventsToFire = new LinkedList<com.mvplite.event.Event<? extends EventHandler>>();
+			eventsToFire = new LinkedList<com.mvplite.event.Event>();
 		}
 	}
 
@@ -105,9 +104,9 @@ public class LiteNavigationController extends UriFragmentUtility
 	}
 	
 	
-	private List<com.mvplite.event.Event<? extends EventHandler>> calculateEventsToFireList(NavigateableView view){
-		List<com.mvplite.event.Event<? extends EventHandler>> events = 
-				new LinkedList<com.mvplite.event.Event<? extends EventHandler>>();
+	private List<com.mvplite.event.Event> calculateEventsToFireList(NavigateableView view){
+		List<com.mvplite.event.Event> events = 
+				new LinkedList<com.mvplite.event.Event>();
 		
 		while (view != null)
 		{
@@ -227,7 +226,7 @@ public class LiteNavigationController extends UriFragmentUtility
 			setCurrentViewCausedByHistoryChange = true;
 			
 			// fire the events that are needed to get to the state of uri fragment
-			for (com.mvplite.event.Event<? extends EventHandler> e : entry.eventsToFire){
+			for (com.mvplite.event.Event e : entry.eventsToFire){
 				eventBus.fireEvent(e);
 			}
 			

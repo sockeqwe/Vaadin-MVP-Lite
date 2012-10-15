@@ -37,7 +37,7 @@ public class RefresherGlobalEventBusDispatcher extends Refresher
 	private List<String> groupNames;
 	private String username, sessionId;
 	
-	private List<com.mvplite.event.Event<? extends EventHandler>> receivedEvents;
+	private List<com.mvplite.event.Event> receivedEvents;
 	
 	public static final long REFRESH_INTERVAL = 1500;
 	private static final long SLEEP_TIME = REFRESH_INTERVAL;
@@ -72,7 +72,7 @@ public class RefresherGlobalEventBusDispatcher extends Refresher
 	@Override
 	public void refresh(Refresher source) {
 		if (receivedEvents!=null){
-			for (com.mvplite.event.Event<? extends EventHandler> e : receivedEvents)
+			for (com.mvplite.event.Event e : receivedEvents)
 				localEventBus.fireEvent(e);
 		}
 	}
