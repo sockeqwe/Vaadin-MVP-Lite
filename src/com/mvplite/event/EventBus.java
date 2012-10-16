@@ -13,9 +13,12 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Hannes Dorfmann
  *
  */
-class EventMethodCache{
+class EventMethodCache implements Serializable{
 	
-	private Map<Class<?>, Set<Method>> methodMap;
+	
+	private static final long serialVersionUID = -3835595439788993624L;
+	
+	private final Map<Class<?>, Set<Method>> methodMap;
 	
 	public EventMethodCache(){
 		methodMap = new ConcurrentHashMap<Class<?>, Set<Method>>();
@@ -68,10 +71,12 @@ class EventMethodCache{
  * @author Hannes Dorfmann
  *
  */
-class EventDispatcher{
+class EventDispatcher implements Serializable{
 	
-	private Object target;
-	private Method method;
+	private static final long serialVersionUID = -7359501691640084178L;
+	
+	private final Object target;
+	private final Method method;
 	
 	
 	public EventDispatcher(Object target, Method method){
@@ -134,7 +139,7 @@ public class EventBus implements Serializable {
 	private static final long serialVersionUID = 5500479291713928578L;
 	
 	private static final EventMethodCache eventMethodChache = new EventMethodCache();
-	private Map<Class<? extends Event>, Set<EventDispatcher>> handlerMap;
+	private final Map<Class<? extends Event>, Set<EventDispatcher>> handlerMap;
 	
 	private static boolean caching = true;
 	

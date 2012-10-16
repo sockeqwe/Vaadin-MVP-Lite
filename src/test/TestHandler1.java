@@ -19,5 +19,6 @@ public class TestHandler1 {
 	public void onTest2(TestEvent2 e){
 		System.out.println("on TestEvent2 "+this);
 	}
+	
 
 }
