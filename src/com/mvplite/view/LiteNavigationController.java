@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.mvplite.event.EventBus;
+import com.mvplite.event.Show404ViewEvent;
 import com.vaadin.ui.UriFragmentUtility;
 import com.vaadin.ui.UriFragmentUtility.FragmentChangedListener;
-import com.vaadin.ui.Window.Notification;
 
 
 /**
@@ -45,9 +45,9 @@ public class LiteNavigationController extends UriFragmentUtility
 	}
 
 	private EventBus eventBus;
-	private Map<String, HistoryEntry> historyStack;
-	private Set<NavigationControllerListener> listeners;
-	private boolean errorMessageOnUnknownUriFragment;
+	private final Map<String, HistoryEntry> historyStack;
+	private final Set<NavigationControllerListener> listeners;
+	private boolean fire404OnUnknownURI;
 	private boolean setCurrentViewCausedByHistoryChange;
 
 	
@@ -57,7 +57,7 @@ public class LiteNavigationController extends UriFragmentUtility
 		historyStack = new LinkedHashMap<String, HistoryEntry>();
 		listeners = new LinkedHashSet<NavigationControllerListener>();
 		setCurrentViewCausedByHistoryChange = false;
-		setShowErrorMessageOnUnknownUriFragment(false);
+		setFire404OnUnknownUriFragment(false);
 		this.addListener(this);
 	}
 	
@@ -68,6 +68,7 @@ public class LiteNavigationController extends UriFragmentUtility
 	
 	
 	
+	@Override
 	public EventBus getEventBus(){
 		return eventBus;
 	}
@@ -80,8 +81,8 @@ public class LiteNavigationController extends UriFragmentUtility
 	 * @see com.mvplite.view.NavigationController#setShowErrorMessageOnUnknownUriFragment(boolean)
 	 */
 	@Override
-	public void setShowErrorMessageOnUnknownUriFragment(boolean showErrorMessage){
-		this.errorMessageOnUnknownUriFragment = showErrorMessage;
+	public void setFire404OnUnknownUriFragment(boolean showErrorMessage){
+		this.fire404OnUnknownURI = showErrorMessage;
 	}
 	
 
@@ -214,10 +215,8 @@ public class LiteNavigationController extends UriFragmentUtility
 		
 		if (entry == null){
 			
-			if (errorMessageOnUnknownUriFragment){
-				source.getComponent().getWindow().showNotification("Unknown history state", 
-						"You try to access an unknown view via the url. Please don't change the url manualy",
-						Notification.TYPE_ERROR_MESSAGE);
+			if (fire404OnUnknownURI){
+				eventBus.fireEvent(new Show404ViewEvent());
 			}
 			
 		}
