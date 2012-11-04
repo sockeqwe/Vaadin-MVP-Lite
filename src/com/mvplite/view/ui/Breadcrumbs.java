@@ -87,7 +87,7 @@ public class Breadcrumbs extends CssLayout implements NavigationControllerListen
 		 * @param currentIndex the index beginning by zero to totalcount-1
 		 * @param totalCount The total count of breadcrumb elements 
 		 */
-		Component createElement(NavigationController controller, NavigateableView view, int currentIndex, int totalCount);
+		public Component createElement(NavigationController controller, NavigateableView view, int currentIndex, int totalCount);
 
 		/**
 		 * Updates the button texts. This method is called when the display name
