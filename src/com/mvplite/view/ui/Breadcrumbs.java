@@ -81,19 +81,20 @@ public class Breadcrumbs extends CssLayout implements NavigationControllerListen
 	public interface BreadcrumbElementFactory extends java.io.Serializable {
 
 		/**
-		 * Creates and returns a button for the specified view. The click
-		 * listener will be registered by the breadcrumbs component.
+		 * Creates and returns a gui component for the specified view.
 		 * @param controller
 		 * @param view
 		 * @param currentIndex the index beginning by zero to totalcount-1
-		 * @param totalCount
+		 * @param totalCount The total count of breadcrumb elements 
 		 */
 		Component createElement(NavigationController controller, NavigateableView view, int currentIndex, int totalCount);
 
 		/**
 		 * Updates the button texts. This method is called when the display name
 		 * and/or the description of the specified view are changed.
+		 * 
 		 */
+		@Deprecated
 		void updateButtonTexts(Button button, NavigateableView view);
 		
 
@@ -149,7 +150,7 @@ public class Breadcrumbs extends CssLayout implements NavigationControllerListen
 
 	private SeparatorFactory separatorFactory;
 	private BreadcrumbElementFactory elementFactory;
-	private NavigationController navigationController;
+	private final NavigationController navigationController;
 	
 	public Breadcrumbs(NavigationController controller){
 		elementFactory = new DefaultBreadcrumbElementFactory();
