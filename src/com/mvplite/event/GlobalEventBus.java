@@ -130,7 +130,7 @@ public final class GlobalEventBus {
 	 * @param username
 	 * @param event
 	 */
-	public static void fireEvent(String username, Event event){
+	public static void fireEventToUser(String username, Event event){
 		
 		memoryCleanUp();
 		
