@@ -1,0 +1,36 @@
+@charset "UTF-8";
+@import url(../reindeer/styles.css);
+
+.breadcrumbs {
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #999;
+    background: -moz-linear-gradient(top, #fff, #ccc);	
+    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ccc));
+    line-height: 24px;
+    padding-left: 18px;
+}
+
+.breadcrumbs .breadcrumb-element {
+	float: left;
+	margin-right: 5px;
+	display: inline-block;
+}
+
+.breadcrumbs .breadcrumb-element.v-label {
+    line-height: 24px;	
+}
+
+
+.breadcrumbs.niceArrowElement {
+	background-image: url(img/hc_yarnlett_global.png);
+    background-repeat: no-repeat;
+    background-position: 100% 0;
+}
+
+
+.breadcrumbs.niceArrowElement:hover {
+	
+	background-position: 100% -48px;
+    color: #333;
+                
+}
