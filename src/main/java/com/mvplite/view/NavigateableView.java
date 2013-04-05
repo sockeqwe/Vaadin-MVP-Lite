@@ -7,7 +7,7 @@ import com.mvplite.event.ShowViewEvent;
  * @author Hannes Dorfmann
  *
  */
-public interface NavigateableView extends View{
+public interface NavigateableView extends View {
 	
 	/**
 	 * The piece after the # (hash) in the url

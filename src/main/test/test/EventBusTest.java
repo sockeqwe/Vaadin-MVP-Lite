@@ -25,20 +25,20 @@ public class EventBusTest {
 	@Test
 	public void test() {
 		
-		TestHandler1 h1 = new TestHandler1();
-		TestHandler1 h2 = new TestHandler1();
+		ExampleHandler1 h1 = new ExampleHandler1();
+		ExampleHandler1 h2 = new ExampleHandler1();
 		eventBus.addHandler(h1);
 		eventBus.addHandler(h2);
 		eventBus.addHandler(this);
-		System.out.println(eventBus.fireEvent(new TestEvent1("First", 42)));
-		System.out.println(eventBus.fireEvent(new TestEvent2()));
+		System.out.println(eventBus.fireEvent(new ExampleEvent1("First", 42)));
+		System.out.println(eventBus.fireEvent(new ExampleEvent2()));
 		System.out.println(eventBus.fireEvent(new ShowViewEvent()));
-		System.out.println(eventBus.fireEvent(new TestEvent1("Second", 23)));
+		System.out.println(eventBus.fireEvent(new ExampleEvent1("Second", 23)));
 
 	}
 	
 	@EventHandler
-	public void onTestEvent2(TestEvent2 e)
+	public void onTestEvent2(ExampleEvent2 e)
 	{
 		System.out.println("TestEvent2 "+this);
 	}
