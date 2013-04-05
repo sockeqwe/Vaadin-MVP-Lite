@@ -23,7 +23,6 @@ public class ShowViewEvent extends Event {
 	 * which is currently not implementes. Therefore this method is currently not in use, 
 	 * but will be used in
 	 * the future when bookmarkable uris are supported 
-	 * @param dataParameter
 	 */
 	public void setDataParamerter(String dataParameter){
 		this.dataParameter = dataParameter;
@@ -34,7 +33,6 @@ public class ShowViewEvent extends Event {
 	 * Get the dataParameter, that is extraceted by the uri.
 	 * <b> Note: </b> This method is currently not used, but will be used in
 	 * the future when bookmarkable uris are supported 
-	 * @param dataParameter
 	 */
 	public String getDataParameter(){
 		return dataParameter;

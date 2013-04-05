@@ -2,6 +2,6 @@ package test;
 
 import com.mvplite.event.Event;
 
-public class TestEvent2 extends Event{
+public class ExampleEvent2 extends Event{
 
 }

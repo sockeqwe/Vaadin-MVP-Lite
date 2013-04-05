@@ -8,7 +8,7 @@ import com.mvplite.view.ui.Breadcrumbs;
  * @author Hannes Dorfmann
  *
  */
-public interface NavigationControllerListener{
+public interface NavigationControllerListener {
 	
 	/**
 	 * The current view

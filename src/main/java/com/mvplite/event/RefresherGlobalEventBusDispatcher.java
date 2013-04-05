@@ -39,7 +39,7 @@ public class RefresherGlobalEventBusDispatcher extends Refresher
 	
 	private List<com.mvplite.event.Event> receivedEvents;
 	
-	public static final long REFRESH_INTERVAL = 1500;
+	public static final int REFRESH_INTERVAL = 1500;
 	private static final long SLEEP_TIME = REFRESH_INTERVAL;
 	
 	public RefresherGlobalEventBusDispatcher(String username, String sessionId, 
