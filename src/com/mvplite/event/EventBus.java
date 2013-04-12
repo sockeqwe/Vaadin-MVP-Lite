@@ -287,7 +287,7 @@ public class EventBus implements Serializable {
 		Set<EventDispatcher> toRemove = new LinkedHashSet<EventDispatcher>();
 		for (Set<EventDispatcher> dispatchers : handlerMap.values()){
 			for (EventDispatcher d: dispatchers)
-				if (d.getTarget() == d)
+				if (d.getTarget() == handler)
 					toRemove.add(d);
 			
 			dispatchers.removeAll(toRemove);
