@@ -105,7 +105,7 @@ public final class GlobalEventBus {
 		
 		
 		// remove group membershipments
-		if (toRemove != null)
+		if (toRemove != null && toRemove.groupMemberships != null)
 			for (String groupName : toRemove.groupMemberships)
 			{
 				List<Client> groups = groupClientMap.get(groupName);
@@ -282,6 +282,14 @@ public final class GlobalEventBus {
 			lastCleanUp = new Date().getTime();
 		}
 		
+	}
+	
+	/**
+	 * Set the interval when {@link #memoryCleanUp()} should be called
+	 * @param interval
+	 */
+	public static void setMemoryCleanUpInterval(long interval){
+		MEMORY_CLEAN_TIMEOUT = interval;
 	}
 
 }
