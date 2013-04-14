@@ -40,7 +40,6 @@ public class Presenter <T extends View> implements Serializable {
 	
 	/**
 	 * Get the {@link View} that is associated to this presenter
-	 * @return
 	 */
 	public T getView(){
 		return view;
@@ -48,7 +47,6 @@ public class Presenter <T extends View> implements Serializable {
 	
 	/**
 	 * Set the view
-	 * @param view
 	 */
 	public void setView(T view){
 		this.view = view;
@@ -56,7 +54,6 @@ public class Presenter <T extends View> implements Serializable {
 
 	/**
 	 * Get the {@link EventBus} to fire any {@link Event}s you want to
-	 * @return
 	 */
 	public EventBus getEventBus() {
 		return eventBus;
@@ -64,7 +61,6 @@ public class Presenter <T extends View> implements Serializable {
 
 	/**
 	 * Set the {@link EventBus}
-	 * @param eventBus
 	 */
 	public void setEventBus(EventBus eventBus) {
 		this.eventBus = eventBus;
