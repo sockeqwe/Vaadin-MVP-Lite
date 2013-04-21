@@ -43,7 +43,7 @@ public class LiteNavigationController implements NavigationController, Page.UriF
 	private final Set<NavigationControllerListener> listeners;
 	private boolean fire404OnUnknownURI;
 	private boolean setCurrentViewCausedByHistoryChange;
-    private Page page;
+    private final Page page;
 
 
 	public LiteNavigationController(){

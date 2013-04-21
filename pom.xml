@@ -4,21 +4,43 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>mvp-lite</artifactId>
     <groupId>com.mvplite</groupId>
-    <version>1.0</version>
+    <version>2.0</version>
     <packaging>jar</packaging>
     <name>Module for work with media</name>
+    
+    <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<vaadin.version>7.0.4</vaadin.version>
+	</properties>
     <dependencies>
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>refresher</artifactId>
             <version>1.2.1.7</version>
         </dependency>
+     
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-server</artifactId>
-            <version>7.0.2</version>
-            <scope>provided</scope>
-        </dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-server</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client-compiled</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client</artifactId>
+			<version>${vaadin.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-themes</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+		
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
